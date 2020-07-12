@@ -4,8 +4,9 @@ import Directory from "../../components/directory/directory"
 
 import "./homepage.scss";
 
-const HomePage = () => (
+const HomePage = (props) => (
     <div className = "homepage"> 
+        {console.log(props)}
        <Directory />
     </div>
 )
