@@ -2,7 +2,13 @@
 // unless it absolutely has to (when it concerns it), for better performance
 import {createSelector} from "reselect";
 
-export const selectCart = state => state.cart;
+const selectCart = state => state.cart;
+
+
+export const selectCartHidden =  createSelector(
+    [selectCart],
+    cart => cart.hidden
+)
 
 // the input selectors must be sequential to the order the selectors was written
 export const selectCartItems = createSelector(
@@ -14,4 +20,10 @@ export const selectCartItems = createSelector(
 export const selectCartItemsCount = createSelector(
     [selectCartItems],
     cartItems => cartItems.reduce((accumulatedQty, cartItem) => accumulatedQty + cartItem.quantity,0)
+)
+
+export const selectCartTotal = createSelector(
+    [selectCartItems],
+    cartItems => cartItems.reduce((accumulatedQty, cartItem) => accumulatedQty + cartItem.quantity * cartItem.price ,0)
+
 )

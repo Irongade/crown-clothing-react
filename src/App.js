@@ -2,6 +2,8 @@ import React from 'react';
 import { Switch, Route, Redirect } from "react-router-dom"
 import HomePage from "./pages/homepage/homepage.component"
 import ShopPage from "./pages/shop/shop.component"
+import CheckOutPage from "./pages/checkout/checkout"
+
 import Header from "./components/header/header";
 import SignInAndSignUp from "./pages/sign-in-and-sign-out/sign-in-and-sign-out"
 import {auth, createUserProfileDocument} from "./firebase/firebase.utils"
@@ -23,6 +25,7 @@ class App extends React.Component {
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
       if (userAuth) {
+  
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapshot => {
@@ -35,7 +38,7 @@ class App extends React.Component {
           });
       }
       else 
-      setCurrentUser({ currentUser: userAuth })
+      setCurrentUser(userAuth)
     })
   }
 
@@ -44,13 +47,14 @@ class App extends React.Component {
   }
 
   render () {
-    
+    // console.log(this.props.currentUser)
     return (
       <div>
         <Header  />
         <Switch>
           <Route exact path = "/" component = {HomePage} />
           <Route  path = "/shop" component = {ShopPage} />
+          <Route exact  path = "/checkout" component = {CheckOutPage} />
           <Route exact path = "/signin" render={() => this.props.currentUser ? (<Redirect to="/"/>) : <SignInAndSignUp /> } />
         </Switch>
       </div>
